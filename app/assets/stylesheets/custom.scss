@@ -216,7 +216,7 @@ input {
   }
 }
 
-checkbox {
+.checkbox {
   margin-top: -10px;
   margin-bottom: 10px;
   span {
@@ -230,6 +230,10 @@ checkbox {
   margin-left: 0;
 }
 
+#user_follow_notification {
+  width: auto;
+  margin-left: 0;
+}
 /* Users index */
 
 .users {

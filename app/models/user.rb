@@ -90,6 +90,9 @@ class User < ApplicationRecord
   # ユーザーをフォローする
   def follow(other_user)
     following << other_user
+    if other_user.follow_notification
+      Relationship.send_follow_email(other_user, self)
+    end
   end
 
   # ユーザーをフォロー解除する
