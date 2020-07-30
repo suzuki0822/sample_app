@@ -79,6 +79,14 @@ class UsersController < ApplicationController
     render 'show_follow'
   end
 
+  def likes
+    @title = "Likes"
+    @user = User.find(params[:id])
+    @likes = Like.where(user_id: @user)
+    render 'likes'
+  end
+
+
   private
 
   
