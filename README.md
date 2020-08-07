@@ -1,5 +1,5 @@
 railsチュートリアルを参考にツイッターライクなSNSアプリをつくりました<br>
-  ・環境　rails6, cloud9, Amazon S3 
+  ・環境　rails6, cloud9, Amazon S3 heloku
   ・ツイート機能、ツイートの検索
   ・いいね機能 
   ・フォロー機能
