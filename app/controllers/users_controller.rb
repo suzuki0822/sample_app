@@ -5,29 +5,14 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: :destroy
 
   def index
-    # @users = User.where(activated: true).paginate(page: params[:page])
-    if params[:q] && params[:q].reject { |key, value| value.blank? }.present?
-      @q = User.ransack(search_params, activated: true)
-      @title = "Serch Result"
-    else
-      @q = User.ransack(activated: true)
-      @title = "All users"
-    end
-    @users = @q.result.paginate(page: params[:page])
+    @users = User.where(activated: true).paginate(page: params[:page]).search(params[:search])
   end
+
 
   def show
     @user = User.find(params[:id])
-    redirect_to root_url and return unless @user.activated?
-    # @microposts = @user.microposts.paginate(page: params[:page])
-    if params[:q] && params[:q].reject { |key, value| value.blank? }.present?
-      @q =  @user.microposts.ransack(microposts_search_params)
-      @microposts = @q.result.paginate(page: params[:page])
-    else
-      @q = Micropost.ransack
-      @microposts = @user.microposts.paginate(page: params[:page])
-    end
-    @url = user_path(@user)
+    # 検索拡張機能として.search(params[:search])を追加    
+    @microposts = @user.microposts.paginate(page: params[:page]).search(params[:search])
   end
 
   def new
