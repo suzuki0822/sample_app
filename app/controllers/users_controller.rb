@@ -5,12 +5,29 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: :destroy
 
   def index
-    @users = User.paginate(page: params[:page])
+    # @users = User.where(activated: true).paginate(page: params[:page])
+    if params[:q] && params[:q].reject { |key, value| value.blank? }.present?
+      @q = User.ransack(search_params, activated: true)
+      @title = "Serch Result"
+    else
+      @q = User.ransack(activated: true)
+      @title = "All users"
+    end
+    @users = @q.result.paginate(page: params[:page])
   end
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page])
+    redirect_to root_url and return unless @user.activated?
+    # @microposts = @user.microposts.paginate(page: params[:page])
+    if params[:q] && params[:q].reject { |key, value| value.blank? }.present?
+      @q =  @user.microposts.ransack(microposts_search_params)
+      @microposts = @q.result.paginate(page: params[:page])
+    else
+      @q = Micropost.ransack
+      @microposts = @user.microposts.paginate(page: params[:page])
+    end
+    @url = user_path(@user)
   end
 
   def new
@@ -62,11 +79,26 @@ class UsersController < ApplicationController
     render 'show_follow'
   end
 
+  def likes
+    @title = "Likes"
+    @user = User.find(params[:id])
+    @likes = Like.where(user_id: @user)
+    render 'likes'
+  end
+
+
   private
 
+  
+    
     def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+      params.require(:user).permit(:name, :email,
+                                   :password, :password_confirmation,
+                                   :follow_notification)
+    end
+    
+    def search_params
+      params.require(:q).permit(:name_cont)
     end
 
     # beforeアクション

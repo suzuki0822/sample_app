@@ -1,0 +1,25 @@
+<% provide(:title, @title) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <%= gravatar_for @user %>
+      <h1><%= @user.name %></h1>
+      <span><%= link_to "view my profile", @user %></span>
+      <span><b>Microposts:</b> <%= @user.microposts.count %></span>
+    </section>
+    <section class="stats">
+      <%= render 'shared/stats' %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <h3><%= @title %></h3>
+   <% @likes.each do |like| %>
+  
+     <% post = Micropost.find_by(id: like.micropost_id)%>
+      <p> 
+        <%= link_to(post.user.name, "/users/#{post.user.id}") %>
+        <%= post.content %>
+      </p>    
+   <% end %>
+  </div>
+</div>

@@ -8,6 +8,8 @@ class User < ApplicationRecord
                                    dependent:   :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+  has_many :likes, dependent: :destroy
+  has_many :iine_users, through: :likes, source: :user
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email
   before_create :create_activation_digest
@@ -90,6 +92,9 @@ class User < ApplicationRecord
   # ユーザーをフォローする
   def follow(other_user)
     following << other_user
+    if other_user.follow_notification
+      Relationship.send_follow_email(other_user, self)
+    end
   end
 
   # ユーザーをフォロー解除する
@@ -102,7 +107,17 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
+  # マイクロポストをいいねする
+  def iine(user)
+    likes.create(user_id: user.id)
+  end
 
+  # マイクロポストのいいねを解除する
+  def uniine(user)
+    likes.find_by(user_id: user.id).destroy
+  end
+  
+  
   private
 
     # メールアドレスをすべて小文字にする
