@@ -20,6 +20,10 @@ class MicropostsController < ApplicationController
     redirect_to request.referrer || root_url
   end
 
+  def index
+    @microposts = Micropost.all
+  end
+
   private
 
     def micropost_params

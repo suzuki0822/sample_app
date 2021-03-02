@@ -1,15 +1,12 @@
-# Ruby on Rails チュートリアルのサンプルアプリケーション
-
-これは、次の教材で作られたサンプルアプリケーションです。
-[*Ruby on Rails チュートリアル*](https://railstutorial.jp/)
-（第6版）
-[Michael Hartl](https://www.michaelhartl.com/) 著
-
-## ライセンス
-
-[Ruby on Rails チュートリアル](https://railstutorial.jp/)内にある
-ソースコードはMITライセンスとBeerwareライセンスのもとで公開されています。
-詳細は [LICENSE.md](LICENSE.md) をご覧ください。
+railsチュートリアルを参考にツイッターライクなSNSアプリをつくりました<br>
+  ・環境　rails6, cloud9, Amazon S3 heloku
+  ・ツイート機能、ツイートの検索
+  ・いいね機能 
+  ・フォロー機能
+  ・画像のアップロード
+  ・メールでのユーザー認証、フォロー通知
+  ・ユーザー検索
+  などができます
 
 ## 使い方
 
@@ -37,6 +34,3 @@ $ rails test
 ```
 $ rails server
 ```
-
-詳しくは、[*Ruby on Rails チュートリアル*](https://railstutorial.jp/)
-を参考にしてください。

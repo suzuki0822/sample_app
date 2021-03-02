@@ -3,7 +3,8 @@ class StaticPagesController < ApplicationController
   def home
     if logged_in?
       @micropost  = current_user.microposts.build
-      @feed_items = current_user.feed.paginate(page: params[:page])
+      # 検索拡張機能として.search(params[:search])を追加 
+      @feed_items = current_user.feed.paginate(page: params[:page]).search(params[:search])
     end
   end
 
@@ -14,5 +15,9 @@ class StaticPagesController < ApplicationController
   end
 
   def contact
+  end
+  
+  def show
+    @microposts = @user.microposts.paginate(page: params[:page]).search(params[:search])
   end
 end
